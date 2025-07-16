@@ -1,0 +1,16 @@
+diff --git a/deps/uv/src/win/util.c b/deps/uv/src/win/util.c
+index 4139fca06c9..4c1ba0242d1 100644
+--- a/deps/uv/src/win/util.c
++++ b/deps/uv/src/win/util.c
+@@ -425,6 +428,11 @@ int uv_get_process_title(char* buffer, size_t size) {
+     }
+   }
+ 
++    if (process_title == NULL) {
++      LeaveCriticalSection(&process_title_lock);
++        return UV_ENOBUFS;
++    }
++
+   assert(process_title);
+   len = strlen(process_title) + 1;
+ 

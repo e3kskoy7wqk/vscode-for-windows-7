@@ -1,0 +1,25 @@
+diff --git a/shell/browser/api/electron_api_msix_updater.cc b/shell/browser/api/electron_api_msix_updater.cc
+index 21ed3fc33e..075734b4de 100644
+--- a/shell/browser/api/electron_api_msix_updater.cc
++++ b/shell/browser/api/electron_api_msix_updater.cc
+@@ -64,7 +64,19 @@ void DebugLog(std::string_view log_msg) {
+ // Check if the process has a package identity
+ bool HasPackageIdentity() {
+   UINT32 length = 0;
+-  LONG rc = GetCurrentPackageFullName(&length, nullptr);
++   HMODULE module = GetModuleHandleW(L"kernel32.dll");
++
++   typedef
++      LONG(WINAPI *T_fnGetCurrentPackageFullName)
++      (UINT32* packageFullNameLength, PWSTR packageFullName);
++
++   auto fnGetCurrentPackageFullName =
++      (T_fnGetCurrentPackageFullName)GetProcAddress(module, "GetCurrentPackageFullName");
++
++   if (fnGetCurrentPackageFullName == nullptr)
++      return false; // no exported function; Windows 7 or earlier, or on Wine
++
++  LONG rc = fnGetCurrentPackageFullName(&length, nullptr);
+   return rc != APPMODEL_ERROR_NO_PACKAGE;
+ }
+ 

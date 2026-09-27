@@ -1,0 +1,13 @@
+diff --git a/third_party/nearby/src/internal/platform/implementation/windows/generated/winrt/base.h b/third_party/nearby/src/internal/platform/implementation/windows/generated/winrt/base.h
+index f785012b..89d3abe4 100644
+--- a/third_party/nearby/src/internal/platform/implementation/windows/generated/winrt/base.h
++++ b/third_party/nearby/src/internal/platform/implementation/windows/generated/winrt/base.h
+@@ -4834,7 +4834,7 @@ WINRT_EXPORT namespace winrt
+ 
+         void originate(hresult const code, void* message, winrt::impl::slim_source_location const& sourceInformation = winrt::impl::slim_source_location::current()) noexcept
+         {
+-            WINRT_VERIFY(WINRT_IMPL_RoOriginateLanguageException(code, message, nullptr));
++//          WINRT_VERIFY(WINRT_IMPL_RoOriginateLanguageException(code, message, nullptr));
+ 
+             // This is an extension point that can be filled in by other libraries (such as WIL) to get call outs when errors are
+             // originated.  This is intended for logging purposes.  When possible include the std::source_information so that accurate
